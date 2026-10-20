@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Webプリント - 横浜印刷大学</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- サイドバー -->
+    <aside class="sidebar">
+      <div class="sidebar-upper">
+        <div class="sidebar-logo">
+          <div class="logo-text">
+            <span class="univ-name">横浜印刷大学</span>
+          </div>
+        </div>
+        <nav class="sidebar-nav" aria-label="メインメニュー">
+          <ul>
+            <li class="active" id="nav-print"><a href="#">印刷</a></li>
+            <li id="nav-history"><a href="#">印刷履歴</a></li>
+            <li id="nav-point"><a href="#">ポイント</a></li>
+            <li id="nav-setting"><a href="#">設定</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="sidebar-footer">
+        <div class="user-info">
+          <span>g24xxxxx@tcu.ac.jp</span>
+        </div>
+        <div class="points-display">
+          <span class="points-label">残りポイント</span>
+          <span class="points-value" id="user-points">4800/5000 pt</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- メインエリア -->
+    <div class="main-wrapper">
+      <!-- ヘルプ -->
+      <header class="top-header">
+        <div class="help-link">
+          <span class="help-icon">?</span> ヘルプ
+        </div>
+      </header>
+
+      <!-- メインコンテンツ -->
+      <main class="main-content">
+        <div class="content-header">
+          <div class="title-section">
+            <h1 class="page-title">Webプリント</h1>
+            <ol class="instructions">
+              <li>「印刷設定」から用紙のサイズ、カラー、部数、印刷方法、印刷場所を選択してください。</li>
+              <li>「ファイルを選択する」から印刷するPDFファイルをアップロードしてください。</li>
+              <li>アップロードが完了したら、プリンター制御端末のカードリーダーに学生証をかざし、印刷を実行してください。</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="step-container">
+          <!-- Step 1: 印刷設定 -->
+          <div id="step-1" class="step-card-wrapper">
+            <div class="card">
+              <div class="card-header">
+                <h2><span class="big-number">1</span>　印刷設定</h2>
+              </div>
+              <div class="card-body">
+                <div class="form-group">
+                  <label for="paper-size">用紙サイズ</label>
+                  <select id="paper-size" class="custom-input">
+                    <option value="A4" selected>A4</option>
+                    <option value="A3">A3</option>
+                    <option value="A2">A2</option>
+                    <option value="A1">A1</option>
+                    <option value="A0">A0</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="color-type">カラー</label>
+                  <select id="color-type" class="custom-input">
+                    <option value="白黒" selected>白黒</option>
+                    <option value="カラー">カラー</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="copy-count">部数</label>
+                  <div class="counter-control">
+                    <button type="button" class="btn-count" id="btn-minus" aria-label="部数を減らす">−</button>
+                    <input type="number" id="copy-count" value="1" min="1" readonly aria-label="印刷部数">
+                    <button type="button" class="btn-count" id="btn-plus" aria-label="部数を増やす">＋</button>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>印刷</label>
+                  <div class="toggle-group" id="print-side-group">
+                    <button type="button" class="btn-toggle active" data-value="片面" aria-pressed="true">片面</button>
+                    <button type="button" class="btn-toggle" data-value="両面" aria-pressed="false">両面</button>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>印刷場所</label>
+                  <div class="toggle-group" id="location-group">
+                    <button type="button" class="btn-toggle active" data-value="横浜" aria-pressed="true">横浜</button>
+                    <button type="button" class="btn-toggle" data-value="世田谷" aria-pressed="false">世田谷</button>
+                  </div>
+                </div>
+              </div>
+              <div class="action-column">
+                <button type="button" class="btn-next" id="go-to-step2">ファイルを選択する ＞</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2: ジョブをアップロード -->
+          <div id="step-2" class="step-card-wrapper hidden">
+            <div class="card">
+              <div class="card-header">
+                <h2><span class="big-number">2</span>　ジョブをアップロード</h2>
+              </div>
+              <div class="card-body upload-body">
+                <div class="drop-zone" id="drop-zone">
+                  <div class="doc-icon" aria-hidden="true">📄</div>
+                  <p class="drop-text-primary">ファイルをドラッグ＆ドロップ</p>
+                  <p class="drop-text-secondary">または下のボタンから選択</p>
+                  <input type="file" id="file-input" accept=".pdf" hidden>
+                </div>
+                <button type="button" class="btn-select-file" id="btn-browse">ファイルを選択</button>
+                <p id="selected-file-name" class="file-name-display" aria-live="polite"></p>
+                <div class="upload-info">
+                  <span>対応形式: PDF</span>
+                  <span>最大サイズ: 100MB</span>
+                </div>
+              </div>
+              <div class="action-column">
+                <button type="button" class="btn-next" id="create-print-job">印刷ジョブを作成する ＞</button>
+                <button type="button" class="btn-back" id="back-to-step1">＜ 戻る</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Step 3 モーダル: 印刷確認 -->
+  <div id="modal-confirm" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+    <div class="modal-box">
+      <h3 class="modal-title" id="confirm-title">印刷しますか？</h3>
+      <div class="modal-content-box">
+        <div class="point-row">
+          <span>現在のポイント</span>
+          <span id="confirm-current-pt">4800pt</span>
+        </div>
+        <div class="point-row">
+          <span id="confirm-detail-label">消費ポイント（白黒/片面/A4）</span>
+          <span>− <span id="confirm-cost-pt">50</span>pt</span>
+        </div>
+        <hr class="modal-divider">
+        <div class="point-row total">
+          <span id="confirm-result-pt">4750pt</span>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn-modal-submit" id="btn-submit-job">アップロード</button>
+        <button type="button" class="btn-modal-cancel" id="btn-cancel-job">キャンセル</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 4 モーダル: アップロード完了 -->
+  <div id="modal-success" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="success-title">
+    <div class="modal-box success-box">
+      <h3 class="success-title" id="success-title">アップロード完了</h3>
+      <div class="success-actions">
+        <button type="button" class="btn-success-action btn-secondary" id="btn-finish">元の画面に戻る</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
