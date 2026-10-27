@@ -107,11 +107,16 @@ document.addEventListener('DOMContentLoaded', () => {
     fileInput.click();
   });
 
-  // 選択したファイル名を表示
+  // 選択したファイル名とサイズを表示
   fileInput.addEventListener('change', (event) => {
     const file = event.target.files && event.target.files[0];
 
-    selectedFileName.textContent = file ? file.name : '';
+    if (file) {
+      const fileSize = (file.size / (1024 * 1024)).toFixed(2);
+      selectedFileName.textContent = `${file.name}（${fileSize} MB）`;
+    } else {
+      selectedFileName.textContent = '';
+    }
   });
 
   // Step 2 → Step 3：印刷確認モーダルを表示
